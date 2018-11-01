@@ -9,11 +9,9 @@
     :copyright: (c) 2013 Janne Vanhala.
     :license: BSD, see LICENSE for more details.
 """
-import base64
 from functools import wraps
 
 from flask import current_app, request, Response
-
 
 __version__ = '0.2.0'
 
@@ -27,6 +25,7 @@ class BasicAuth(object):
         application is provided on creation, then it can be provided later on
         via :meth:`init_app`.
     """
+
     def __init__(self, app=None):
         if app is not None:
             self.app = app
@@ -42,13 +41,18 @@ class BasicAuth(object):
         """
         app.config.setdefault('BASIC_AUTH_FORCE', False)
         app.config.setdefault('BASIC_AUTH_REALM', '')
+        app.config.setdefault('BASIC_AUTH_EXCLUDE', [])
 
         @app.before_request
         def require_basic_auth():
             if not current_app.config['BASIC_AUTH_FORCE']:
                 return
-            if not self.authenticate():
-                return self.challenge()
+            else:
+                method, endpoint = request.method, request.url_rule.endpoint
+                print("{0}:{1}".format(endpoint, method))
+                exclude = current_app.config['BASIC_AUTH_EXCLUDE']
+                if not "{0}:{1}".format(endpoint, method) in exclude and not self.authenticate():
+                    return self.challenge()
 
     def check_credentials(self, username, password):
         """
@@ -76,8 +80,8 @@ class BasicAuth(object):
         """
         auth = request.authorization
         return (
-            auth and auth.type == 'basic' and
-            self.check_credentials(auth.username, auth.password)
+                auth and auth.type == 'basic' and
+                self.check_credentials(auth.username, auth.password)
         )
 
     def challenge(self):
@@ -102,10 +106,12 @@ class BasicAuth(object):
         A decorator that can be used to protect specific views with HTTP
         basic access authentication.
         """
+
         @wraps(view_func)
         def wrapper(*args, **kwargs):
             if self.authenticate():
                 return view_func(*args, **kwargs)
             else:
                 return self.challenge()
+
         return wrapper

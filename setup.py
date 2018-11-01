@@ -16,14 +16,14 @@ def get_version():
 setup(
     name='Flask-BasicAuth',
     version=get_version(),
-    url='https://github.com/jpvanhal/flask-basicauth',
+    url='https://github.com/ranjankumarpatel/flask-basicauth',
     license='BSD',
-    author='Janne Vanhala',
-    author_email='janne.vanhala@gmail.com',
+    author='ranjankumarpatel',
+    author_email='ranjanpatelbbsr@gmail.com',
     description='HTTP basic access authentication for Flask.',
     long_description=(
-        open('README.rst').read() + '\n\n' +
-        open('CHANGES.rst').read()
+            open('README.rst').read() + '\n\n' +
+            open('CHANGES.rst').read()
     ),
     py_modules=['flask_basicauth'],
     zip_safe=False,
