@@ -4,6 +4,11 @@ Changelog
 Here you can see the full list of changes between each Flask-BasicAuth
 release.
 
+1.0.0 (Oct 15, 2018)
+^^^^^^^^^^^^^^^^^^^^^
+
+- Added Exlusion list.
+
 0.2.0 (June 15, 2013)
 ^^^^^^^^^^^^^^^^^^^^^
 
