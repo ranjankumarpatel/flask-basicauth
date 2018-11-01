@@ -20,7 +20,7 @@ More Configuration
 
 - BASIC_AUTH_FORCE = True
 - BASIC_AUTH_EXCLUDE = ["falsk_endpoint:method_type"]
-- e.g.: ["site-map:GET"]
+- e.g.: ["site_map:GET"]
 
 
 Links
