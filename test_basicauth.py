@@ -2,7 +2,8 @@ import base64
 import unittest
 
 from flask import Flask
-from flask.ext.basicauth import BasicAuth
+
+from flask_basicauth import BasicAuth
 
 
 class BasicAuthTestCase(unittest.TestCase):
@@ -15,6 +16,8 @@ class BasicAuthTestCase(unittest.TestCase):
 
         app.config['BASIC_AUTH_USERNAME'] = 'john'
         app.config['BASIC_AUTH_PASSWORD'] = 'matrix'
+        app.config['BASIC_AUTH_FORCE'] = True
+        app.config['BASIC_AUTH_EXCLUDE'] = ["protected_view:GET", "normal_view:GET"]
 
         basic_auth = BasicAuth(app)
 
