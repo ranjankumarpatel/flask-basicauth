@@ -13,7 +13,7 @@ from functools import wraps
 
 from flask import current_app, request, Response
 
-__version__ = '0.2.0'
+__version__ = '1.0.0'
 
 
 class BasicAuth(object):
