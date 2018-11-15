@@ -16,8 +16,8 @@ class BasicAuthTestCase(unittest.TestCase):
 
         app.config['BASIC_AUTH_USERNAME'] = 'john'
         app.config['BASIC_AUTH_PASSWORD'] = 'matrix'
-        app.config['BASIC_AUTH_FORCE'] = True
-        app.config['BASIC_AUTH_EXCLUDE'] = ["protected_view:GET", "normal_view:GET"]
+        app.config['BASIC_AUTH_FORCE'] = False
+        # app.config['BASIC_AUTH_EXCLUDE'] = ["protected_view:GET", "normal_view:GET"]
 
         basic_auth = BasicAuth(app)
 
@@ -44,7 +44,7 @@ class BasicAuthTestCase(unittest.TestCase):
 
     def test_views_without_basic_auth_decorator_respond_with_200(self):
         response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
 
     def test_requires_authentication_for_all_views_when_forced(self):
         self.app.config['BASIC_AUTH_FORCE'] = True

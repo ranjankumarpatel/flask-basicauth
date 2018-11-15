@@ -13,7 +13,7 @@ from functools import wraps
 
 from flask import current_app, request, Response
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 
 class BasicAuth(object):
@@ -48,6 +48,8 @@ class BasicAuth(object):
             if not current_app.config['BASIC_AUTH_FORCE']:
                 return
             else:
+                if request.method == "OPTIONS":
+                    return Response("{}", status=204, mimetype='application/json')
                 method, endpoint = request.method, request.url_rule.endpoint
                 print("{0}:{1}".format(endpoint, method))
                 exclude = current_app.config['BASIC_AUTH_EXCLUDE']
