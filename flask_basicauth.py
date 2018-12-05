@@ -48,8 +48,10 @@ class BasicAuth(object):
             if not current_app.config['BASIC_AUTH_FORCE']:
                 return
             else:
-                if request.method == "OPTIONS":
+                print(request.path)
+                if request.method == "OPTIONS" or 'favicon.ico' in request.path:
                     return Response("{}", status=204, mimetype='application/json')
+                req = request
                 method, endpoint = request.method, request.url_rule.endpoint
                 print("{0}:{1}".format(endpoint, method))
                 exclude = current_app.config['BASIC_AUTH_EXCLUDE']
@@ -71,7 +73,10 @@ class BasicAuth(object):
         """
         correct_username = current_app.config['BASIC_AUTH_USERNAME']
         correct_password = current_app.config['BASIC_AUTH_PASSWORD']
-        return username == correct_username and password == correct_password
+        if correct_username != "" and username == correct_username and password == correct_password:
+            return True
+        else:
+            return False
 
     def authenticate(self):
         """

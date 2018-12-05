@@ -44,7 +44,7 @@ class BasicAuthTestCase(unittest.TestCase):
 
     def test_views_without_basic_auth_decorator_respond_with_200(self):
         response = self.client.get('/')
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 200)
 
     def test_requires_authentication_for_all_views_when_forced(self):
         self.app.config['BASIC_AUTH_FORCE'] = True
