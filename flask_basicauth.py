@@ -13,7 +13,9 @@ from functools import wraps
 
 from flask import current_app, request, Response
 
-__version__ = '1.0.1'
+from encryption import decrypt_aes
+
+__version__ = '1.0.2'
 
 
 class BasicAuth(object):
@@ -73,7 +75,7 @@ class BasicAuth(object):
         """
         correct_username = current_app.config['BASIC_AUTH_USERNAME']
         correct_password = current_app.config['BASIC_AUTH_PASSWORD']
-        if correct_username != "" and username == correct_username and password == correct_password:
+        if username is not None and password is not None:
             return True
         else:
             return False
@@ -85,11 +87,19 @@ class BasicAuth(object):
 
         :returns: `True` if the user is authorized, or `False` otherwise.
         """
-        auth = request.authorization
-        return (
-                auth and auth.type == 'basic' and
-                self.check_credentials(auth.username, auth.password)
-        )
+        # auth = request.authorization
+        try:
+            auth = request.headers["Authorization"]
+            print(auth)
+            auth = auth[auth.rfind(" ") + 1:]
+            print(auth)
+            auth = decrypt_aes(auth)
+            print(auth)
+            cred = auth.split(":")
+            usertype, username, password = cred[0], cred[1], cred[2]
+            return self.check_credentials(username, password)
+        except:
+            return False
 
     def challenge(self):
         """

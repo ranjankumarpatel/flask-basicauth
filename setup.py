@@ -25,7 +25,7 @@ setup(
             open('README.rst').read() + '\n\n' +
             open('CHANGES.rst').read()
     ),
-    py_modules=['flask_basicauth'],
+    py_modules=['flask_basicauth',"encryption"],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
